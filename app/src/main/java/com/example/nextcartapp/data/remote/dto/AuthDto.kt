@@ -6,7 +6,15 @@ data class LoginRequestDto(
 )
 
 data class LoginResponseDto(
-    val accessToken: String
+    val accessToken: String,
+    val user: UserDto? = null  // aggiungiamo i dati utente
+)
+
+data class UserDto(
+    val consumerId: Int,
+    val name: String,
+    val email: String,
+    val surname: String?
 )
 
 data class RegisterRequestDto(

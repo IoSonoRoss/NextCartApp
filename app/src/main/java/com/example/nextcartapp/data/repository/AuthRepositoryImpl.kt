@@ -18,9 +18,27 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             val response = authApi.login(LoginRequestDto(email, password))
             if (response.isSuccessful) {
-                val token = response.body()?.accessToken
+                val body = response.body()
+                val token = body?.accessToken
                 if (token != null) {
-                    sessionManager.saveAccessToken(token)
+                    // Salva token e dati utente
+                    val user = body.user
+                    if (user != null) {
+                        sessionManager.saveSession(
+                            token = token,
+                            userId = user.consumerId.toString(),
+                            name = user.name,
+                            email = user.email
+                        )
+                    } else {
+                        // Se il backend non restituisce user, salviamo solo il token e l'email
+                        sessionManager.saveSession(
+                            token = token,
+                            userId = "",
+                            name = "",
+                            email = email
+                        )
+                    }
                     Result.Success(token)
                 } else {
                     Result.Error(AppError.UnknownError("Token non ricevuto"))
