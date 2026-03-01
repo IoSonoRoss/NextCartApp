@@ -31,3 +31,14 @@ data class RegisterResponseDto(
     val message: String,
     val userId: Int
 )
+
+data class ProfileDto(
+    val consumerId: Int,
+    val email: String,
+    val name: String,
+    val surname: String?,
+    val dateOfBirth: String,
+    val gender: String,
+    val address: String?,
+    val placeOfBirth: String?
+)

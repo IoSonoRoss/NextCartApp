@@ -3,52 +3,111 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/splashFragment">
 
+    <!-- SPLASH FRAGMENT -->
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.nextcartapp.presentation.ui.splash.SplashFragment"
+        android:label="Splash">
+        <action
+            android:id="@+id/action_splash_to_login"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splash_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- LOGIN FRAGMENT -->
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.nextcartapp.presentation.ui.auth.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_login">
+        android:label="Login">
         <action
             android:id="@+id/action_login_to_home"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_login_to_register"
+            android:id="@+id/action_login_to_registration"
             app:destination="@id/registerFragment" />
     </fragment>
 
+    <!-- REGISTRATION FRAGMENT -->
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.nextcartapp.presentation.ui.auth.RegisterFragment"
-        android:label="Registrazione"
-        tools:layout="@layout/fragment_register">
+        android:label="Registrazione">
         <action
-            android:id="@+id/action_register_to_login"
+            android:id="@+id/action_registration_to_login"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/registerFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_register_to_home"
+            android:id="@+id/action_registration_to_home"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/registerFragment"
             app:popUpToInclusive="true" />
-
     </fragment>
 
+    <!-- HOME FRAGMENT -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.nextcartapp.presentation.ui.home.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_products">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_to_login"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_home_to_products"
+            app:destination="@id/productsFragment" />
     </fragment>
+
+    <!-- PRODUCTS FRAGMENT -->
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.example.nextcartapp.presentation.ui.products.ProductsFragment"
+        android:label="Products"
+        tools:layout="@layout/fragment_products">
+        <action
+            android:id="@+id/action_products_to_filters"
+            app:destination="@id/filtersSelectionFragment" />
+    </fragment>
+
+    <!-- FILTERS SELECTION FRAGMENT -->
+    <fragment
+        android:id="@+id/filtersSelectionFragment"
+        android:name="com.example.nextcartapp.presentation.ui.products.filters.FiltersSelectionFragment"
+        android:label="Filtri"
+        tools:layout="@layout/fragment_filters_selection">
+        <action
+            android:id="@+id/action_filtersSelection_to_selectCategories"
+            app:destination="@id/selectCategoriesFragment" />
+        <action
+            android:id="@+id/action_filtersSelection_to_selectDiets"
+            app:destination="@id/selectDietsFragment" />
+    </fragment>
+
+    <!-- SELECT CATEGORIES FRAGMENT -->
+    <fragment
+        android:id="@+id/selectCategoriesFragment"
+        android:name="com.example.nextcartapp.presentation.ui.products.filters.SelectCategoriesFragment"
+        android:label="Select Categories"
+        tools:layout="@layout/fragment_select_categories" />
+
+    <!-- SELECT DIETS FRAGMENT -->
+    <fragment
+        android:id="@+id/selectDietsFragment"
+        android:name="com.example.nextcartapp.presentation.ui.products.filters.SelectDietsFragment"
+        android:label="Select Diets"
+        tools:layout="@layout/fragment_select_diets" />
 
     <fragment
         android:id="@+id/scannerFragment"

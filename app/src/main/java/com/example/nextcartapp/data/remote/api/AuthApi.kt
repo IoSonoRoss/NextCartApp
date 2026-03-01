@@ -2,10 +2,12 @@ package com.example.nextcartapp.data.remote.api
 
 import com.example.nextcartapp.data.remote.dto.LoginRequestDto
 import com.example.nextcartapp.data.remote.dto.LoginResponseDto
+import com.example.nextcartapp.data.remote.dto.ProfileDto
 import com.example.nextcartapp.data.remote.dto.RegisterRequestDto
 import com.example.nextcartapp.data.remote.dto.RegisterResponseDto
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface AuthApi {
@@ -20,4 +22,7 @@ interface AuthApi {
 
     @POST("auth/refresh")
     suspend fun refresh(): Response<LoginResponseDto>
+
+    @GET("profile/profile")
+    suspend fun getProfile(): Response<ProfileDto>
 }

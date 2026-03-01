@@ -17,28 +17,40 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun login(email: String, password: String): Result<String> {
         return try {
             val response = authApi.login(LoginRequestDto(email, password))
+
             if (response.isSuccessful) {
-                val body = response.body()
-                val token = body?.accessToken
+                val token = response.body()?.accessToken
+
                 if (token != null) {
-                    // Salva token e dati utente
-                    val user = body.user
-                    if (user != null) {
-                        sessionManager.saveSession(
-                            token = token,
-                            userId = user.consumerId.toString(),
-                            name = user.name,
-                            email = user.email
-                        )
-                    } else {
-                        // Se il backend non restituisce user, salviamo solo il token e l'email
-                        sessionManager.saveSession(
-                            token = token,
-                            userId = "",
-                            name = "",
-                            email = email
-                        )
+                    // Salva token temporaneo per chiamare /profile
+                    sessionManager.saveSession(
+                        token = token,
+                        userId = "",
+                        name = "",
+                        email = email
+                    )
+
+                    // Ottieni dati completi dal profilo
+                    try {
+                        val profileResponse = authApi.getProfile()
+
+                        if (profileResponse.isSuccessful) {
+                            val profile = profileResponse.body()
+
+                            if (profile != null) {
+                                sessionManager.saveSession(
+                                    token = token,
+                                    userId = profile.consumerId.toString(),
+                                    name = profile.name,
+                                    email = profile.email
+                                )
+                                android.util.Log.d("DEBUG_AUTH", "Profile caricato: ${profile.name}")
+                            }
+                        }
+                    } catch (e: Exception) {
+                        android.util.Log.e("DEBUG_AUTH", "Errore caricamento profile: ${e.message}")
                     }
+
                     Result.Success(token)
                 } else {
                     Result.Error(AppError.UnknownError("Token non ricevuto"))

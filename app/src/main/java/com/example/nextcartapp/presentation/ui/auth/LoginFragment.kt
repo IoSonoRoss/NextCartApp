@@ -73,7 +73,7 @@ class LoginFragment : Fragment() {
             viewModel.login()
         }
         binding.tvRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_login_to_register)
+            findNavController().navigate(R.id.action_login_to_registration)
         }
         binding.tvForgotPassword.setOnClickListener {
             // TODO: implementare recupero password

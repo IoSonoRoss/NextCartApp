@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.nextcartapp.R
 import com.example.nextcartapp.databinding.FragmentScannerBinding
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class ScannerFragment : Fragment() {
 
     private var _binding: FragmentScannerBinding? = null
@@ -21,6 +21,39 @@ class ScannerFragment : Fragment() {
     ): View {
         _binding = FragmentScannerBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupBottomNavigation()
+    }
+
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    findNavController().navigate(R.id.homeFragment)
+                    true
+                }
+                R.id.nav_profile -> {
+                    findNavController().navigate(R.id.profileFragment)
+                    true
+                }
+                R.id.nav_lifestyle -> {
+                    findNavController().navigate(R.id.wellnessFragment)
+                    true
+                }
+                R.id.nav_products -> {
+                    findNavController().navigate(R.id.productsFragment)
+                    true
+                }
+                R.id.nav_scan -> {
+                    // Già qui
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onDestroyView() {

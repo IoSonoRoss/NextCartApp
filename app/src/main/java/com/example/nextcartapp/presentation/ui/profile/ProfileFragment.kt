@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.nextcartapp.R
 import com.example.nextcartapp.databinding.FragmentProfileBinding
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
@@ -21,6 +21,39 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupBottomNavigation()
+    }
+
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    findNavController().navigate(R.id.homeFragment)
+                    true
+                }
+                R.id.nav_profile -> {
+                    // Già qui
+                    true
+                }
+                R.id.nav_lifestyle -> {
+                    findNavController().navigate(R.id.wellnessFragment)
+                    true
+                }
+                R.id.nav_products -> {
+                    findNavController().navigate(R.id.productsFragment)
+                    true
+                }
+                R.id.nav_scan -> {
+                    findNavController().navigate(R.id.scannerFragment)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onDestroyView() {

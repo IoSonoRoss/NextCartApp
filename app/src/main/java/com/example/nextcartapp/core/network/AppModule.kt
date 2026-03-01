@@ -1,8 +1,14 @@
 package com.example.nextcartapp.core.network
 
 import com.example.nextcartapp.data.remote.api.AuthApi
+import com.example.nextcartapp.data.remote.api.FilterApi
+import com.example.nextcartapp.data.remote.api.ProductApi
 import com.example.nextcartapp.data.repository.AuthRepositoryImpl
+import com.example.nextcartapp.data.repository.FilterRepositoryImpl
+import com.example.nextcartapp.data.repository.ProductRepositoryImpl
 import com.example.nextcartapp.domain.repository.AuthRepository
+import com.example.nextcartapp.domain.repository.FilterRepository
+import com.example.nextcartapp.domain.repository.ProductRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,6 +25,23 @@ object ApiModule {
     @Singleton
     fun provideAuthApi(retrofit: Retrofit): AuthApi =
         retrofit.create(AuthApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideProductApi(retrofit: Retrofit): ProductApi =
+        retrofit.create(ProductApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFilterApi(retrofit: Retrofit): FilterApi {
+        return retrofit.create(FilterApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFilterRepository(filterApi: FilterApi): FilterRepository {
+        return FilterRepositoryImpl(filterApi)
+    }
 }
 
 @Module
@@ -28,4 +51,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindProductRepository(impl: ProductRepositoryImpl): ProductRepository
 }

@@ -109,7 +109,7 @@ class RegisterFragment : Fragment() {
                                 "Registrazione completata! Accedi ora.",
                                 Snackbar.LENGTH_LONG
                             ).show()
-                            findNavController().navigate(R.id.action_register_to_home)
+                            findNavController().navigate(R.id.action_registration_to_home)
                         }
                         is RegisterViewModel.RegisterUiEvent.ShowError -> {
                             Snackbar.make(binding.root, event.message, Snackbar.LENGTH_LONG).show()

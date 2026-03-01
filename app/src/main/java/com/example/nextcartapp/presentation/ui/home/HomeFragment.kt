@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.example.nextcartapp.R
 import com.example.nextcartapp.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -33,6 +35,35 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeUiState()
+        setupBottomNavigation()
+    }
+
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    // Già qui, non fare nulla
+                    true
+                }
+                R.id.nav_products -> {
+                    findNavController().navigate(R.id.action_home_to_products)
+                    true
+                }
+                R.id.nav_profile -> {
+                    // TODO: navigazione profilo
+                    true
+                }
+                R.id.nav_lifestyle -> {
+                    // TODO: navigazione lifestyle
+                    true
+                }
+                R.id.nav_scan -> {
+                    // TODO: navigazione scanner
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun observeUiState() {

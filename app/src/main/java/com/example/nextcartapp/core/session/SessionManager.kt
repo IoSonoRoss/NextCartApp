@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -52,7 +53,13 @@ class SessionManager @Inject constructor(
         }
     }
 
-    suspend fun isLoggedIn(): Boolean {
-        return accessToken.map { it != null }.map { it }.map { it }.toString().isNotEmpty()
+    // Metodo per verificare se l'utente è loggato
+    suspend fun isTokenValid(): Boolean {
+        val token = context.dataStore.data.first()[ACCESS_TOKEN_KEY]  // ← CONTEXT.dataStore
+        return !token.isNullOrEmpty()
+    }
+
+    fun isLoggedIn(): Flow<Boolean> = context.dataStore.data.map { preferences ->  // ← CONTEXT.dataStore
+        !preferences[ACCESS_TOKEN_KEY].isNullOrEmpty()
     }
 }
