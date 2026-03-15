@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeUiState()
+        setupClickListeners()
         setupBottomNavigation()
     }
 
@@ -63,6 +64,18 @@ class HomeFragment : Fragment() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun setupClickListeners() {
+        // Click sull'icona profilo
+        binding.ivAccount.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_profile)
+        }
+
+        // Click su "View all" di Favorites (se esiste)
+        binding.ivFavoritesArrow.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_products)
         }
     }
 

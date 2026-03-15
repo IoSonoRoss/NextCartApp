@@ -27,6 +27,8 @@
                 android:layout_height="32dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="4dp"
                 android:src="@drawable/ic_arrow_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -46,67 +48,82 @@
                 app:layout_constraintTop_toTopOf="@id/ivBack" />
 
             <!-- Profile Card -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clProfileCard"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardProfile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="32dp"
-                android:background="@drawable/bg_profile_card"
-                android:padding="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle">
 
-                <ImageView
-                    android:id="@+id/ivProfilePicture"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/ic_account_circle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/md_theme_onSurfaceVariant" />
-
-                <TextView
-                    android:id="@+id/tvProfileName"
-                    android:layout_width="0dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Anna Bianchi"
-                    android:textColor="@color/md_theme_onBackground"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivProfilePicture"
-                    app:layout_constraintTop_toTopOf="@id/ivProfilePicture" />
+                    android:padding="24dp">
 
-                <TextView
-                    android:id="@+id/tvProfileAge"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Age: 38"
-                    android:textColor="@color/md_theme_onBackground"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/tvProfileName"
-                    app:layout_constraintTop_toBottomOf="@id/tvProfileName" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivProfilePicture"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@color/md_theme_surfaceVariant"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_account_circle"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/CircleImageView"
+                        app:tint="@color/md_theme_primary" />
 
-                <TextView
-                    android:id="@+id/tvEditDetails"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Edit your personal details"
-                    android:textColor="#386a44"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/tvProfileName"
-                    app:layout_constraintTop_toBottomOf="@id/tvProfileAge" />
+                    <TextView
+                        android:id="@+id/tvProfileName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Anna Bianchi"
+                        android:textColor="@color/md_theme_onSurface"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ivProfilePicture"
+                        app:layout_constraintTop_toTopOf="@id/ivProfilePicture" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/tvProfileAge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Age: 38"
+                        android:textColor="@color/md_theme_onSurfaceVariant"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tvProfileName"
+                        app:layout_constraintTop_toBottomOf="@id/tvProfileName" />
+
+                    <TextView
+                        android:id="@+id/tvEditDetails"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:drawableEnd="@drawable/ic_chevron_right"
+                        android:drawableTint="@color/md_theme_primary"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="4dp"
+                        android:text="Edit your personal details"
+                        android:textColor="@color/md_theme_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tvProfileName"
+                        app:layout_constraintTop_toBottomOf="@id/tvProfileAge" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Settings Section -->
             <TextView
@@ -120,140 +137,163 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clProfileCard" />
+                app:layout_constraintTop_toBottomOf="@id/cardProfile" />
 
-            <!-- Option: Health -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clOptionHealth"
-                android:layout_width="match_parent"
+            <!-- Settings Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSettings"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvSettingsLabel">
 
-                <ImageView
-                    android:id="@+id/ivIconHealth"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_favorite_border"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/md_theme_onBackground" />
-
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Health"
-                    android:textColor="@color/md_theme_onBackground"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/ivArrowHealth"
-                    app:layout_constraintStart_toEndOf="@id/ivIconHealth"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="vertical"
+                    android:divider="@drawable/divider_horizontal"
+                    android:showDividers="middle">
 
-                <ImageView
-                    android:id="@+id/ivArrowHealth"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_chevron_right"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/md_theme_onBackground" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <!-- Option: Health -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clOptionHealth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="16dp">
 
-            <!-- Option: Diet -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clOptionDiet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="16dp"
-                app:layout_constraintTop_toBottomOf="@id/clOptionHealth">
+                        <ImageView
+                            android:id="@+id/ivIconHealth"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_favorite_border"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/md_theme_primary" />
 
-                <ImageView
-                    android:id="@+id/ivIconDiet"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_restaurant"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/md_theme_onBackground" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="Health"
+                            android:textColor="@color/md_theme_onSurface"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/ivArrowHealth"
+                            app:layout_constraintStart_toEndOf="@id/ivIconHealth"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Diet"
-                    android:textColor="@color/md_theme_onBackground"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/ivArrowDiet"
-                    app:layout_constraintStart_toEndOf="@id/ivIconDiet"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        <ImageView
+                            android:id="@+id/ivArrowHealth"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/md_theme_onSurfaceVariant" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:id="@+id/ivArrowDiet"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_chevron_right"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/md_theme_onBackground" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <!-- Option: Diet -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clOptionDiet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="16dp">
 
-            <!-- Option: Family -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clOptionFamily"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="16dp"
-                app:layout_constraintTop_toBottomOf="@id/clOptionDiet">
+                        <ImageView
+                            android:id="@+id/ivIconDiet"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_restaurant"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/md_theme_primary" />
 
-                <ImageView
-                    android:id="@+id/ivIconFamily"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_groups"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/md_theme_onBackground" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="Diet"
+                            android:textColor="@color/md_theme_onSurface"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/ivArrowDiet"
+                            app:layout_constraintStart_toEndOf="@id/ivIconDiet"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Family"
-                    android:textColor="@color/md_theme_onBackground"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/ivArrowFamily"
-                    app:layout_constraintStart_toEndOf="@id/ivIconFamily"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        <ImageView
+                            android:id="@+id/ivArrowDiet"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/md_theme_onSurfaceVariant" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:id="@+id/ivArrowFamily"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_chevron_right"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/md_theme_onBackground" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <!-- Option: Family -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clOptionFamily"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="16dp">
+
+                        <ImageView
+                            android:id="@+id/ivIconFamily"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_groups"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/md_theme_primary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="Family"
+                            android:textColor="@color/md_theme_onSurface"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/ivArrowFamily"
+                            app:layout_constraintStart_toEndOf="@id/ivIconFamily"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/ivArrowFamily"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/md_theme_onSurfaceVariant" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Logout Button -->
             <com.google.android.material.button.MaterialButton
@@ -263,13 +303,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:text="Logout"
-                android:textColor="#386a44"
+                android:textColor="@color/md_theme_primary"
                 app:icon="@drawable/ic_logout"
-                app:iconTint="#386a44"
+                app:iconTint="@color/md_theme_primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clOptionFamily"
-                app:strokeColor="#386a44" />
+                app:layout_constraintTop_toBottomOf="@id/cardSettings"
+                app:strokeColor="@color/md_theme_primary" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

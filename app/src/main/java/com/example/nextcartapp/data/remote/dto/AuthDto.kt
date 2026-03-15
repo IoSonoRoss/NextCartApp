@@ -1,5 +1,7 @@
 package com.example.nextcartapp.data.remote.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class LoginRequestDto(
     val email: String,
     val password: String
@@ -11,10 +13,32 @@ data class LoginResponseDto(
 )
 
 data class UserDto(
+    @SerializedName("consumerId")
     val consumerId: Int,
-    val name: String,
+
+    @SerializedName("email")
     val email: String,
-    val surname: String?
+
+    @SerializedName("name")
+    val name: String,
+
+    @SerializedName("surname")
+    val surname: String?,
+
+    @SerializedName("dateOfBirth")
+    val dateOfBirth: String?,
+
+    @SerializedName("gender")
+    val gender: String?,
+
+    @SerializedName("placeOfBirth")
+    val placeOfBirth: String?,
+
+    @SerializedName("address")
+    val address: String?,
+
+    @SerializedName("role")
+    val role: String?
 )
 
 data class RegisterRequestDto(

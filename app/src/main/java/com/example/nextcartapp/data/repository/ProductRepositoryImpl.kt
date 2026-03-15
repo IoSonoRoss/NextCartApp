@@ -3,7 +3,9 @@ package com.example.nextcartapp.data.repository
 import com.example.nextcartapp.core.util.AppError
 import com.example.nextcartapp.core.util.Result
 import com.example.nextcartapp.data.remote.api.ProductApi
+import com.example.nextcartapp.domain.model.NutritionalValue
 import com.example.nextcartapp.domain.model.Product
+import com.example.nextcartapp.domain.model.ProductDetails
 import com.example.nextcartapp.domain.repository.ProductRepository
 import javax.inject.Inject
 
@@ -21,7 +23,6 @@ class ProductRepositoryImpl @Inject constructor(
                 val dtos = response.body() ?: emptyList()
                 android.util.Log.d("DEBUG_PRODUCTS", "Prodotti ricevuti: ${dtos.size}")
 
-                // LOG: guarda il primo prodotto per vedere la struttura
                 if (dtos.isNotEmpty()) {
                     android.util.Log.d("DEBUG_DTO", "=== PRIMO PRODOTTO ===")
                     android.util.Log.d("DEBUG_DTO", "ProductId: ${dtos[0].productId}")
@@ -31,14 +32,14 @@ class ProductRepositoryImpl @Inject constructor(
                     android.util.Log.d("DEBUG_DTO", "CategoryName: ${dtos[0].productCategory?.category}")
                 }
 
-                val products = dtos.mapNotNull { dto ->  // ← mapNotNull invece di map
+                val products = dtos.mapNotNull { dto ->
                     if (dto.name.isNullOrBlank()) {
                         android.util.Log.w("DEBUG_PRODUCTS", "Prodotto ${dto.productId} senza nome, saltato")
                         null
                     } else {
                         Product(
                             productId = dto.productId,
-                            name = dto.name,  // ← Ora è garantito non-null
+                            name = dto.name,
                             itName = dto.itName,
                             categoryName = dto.productCategory?.category,
                             imageUrl = null
@@ -58,31 +59,44 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getProductById(id: String): Result<Product> {
+    override suspend fun getProductById(id: String): Result<ProductDetails> {
         return try {
             val response = productApi.getProductById(id)
+
             if (response.isSuccessful) {
                 val dto = response.body()
-                if (dto != null) {
-                    if (dto.name.isNullOrBlank()) {
-                        Result.Error(AppError.UnknownError("Prodotto senza nome"))
-                    } else {
-                        val product = Product(
-                            productId = dto.productId,
-                            name = dto.name,  // ← Garantito non-null
-                            itName = dto.itName,
-                            categoryName = dto.productCategory?.category,
-                            imageUrl = null
-                        )
-                        Result.Success(product)
-                    }
+
+                if (dto != null && !dto.name.isNullOrBlank()) {
+                    val productDetails = ProductDetails(
+                        productId = dto.productId,
+                        name = dto.name,
+                        itName = dto.itName,
+                        categoryName = dto.productCategory?.category,
+                        standardPortion = dto.productCategory?.standardPortion,
+                        diets = dto.productDiets?.mapNotNull { it.diet?.description } ?: emptyList(),
+                        claims = dto.productClaims?.mapNotNull { it.claim?.description } ?: emptyList(),
+                        allergens = dto.productAllergens?.mapNotNull { it.allergen?.description } ?: emptyList(),
+                        nutritionalValues = dto.nutritionalInformationValues?.mapNotNull { nvDto ->
+                            val nutrient = nvDto.nutritionalInformation
+                            if (nutrient?.name != null && nvDto.value != null) {
+                                NutritionalValue(
+                                    name = nutrient.name,
+                                    value = nvDto.value,
+                                    unit = nutrient.unit
+                                )
+                            } else null
+                        } ?: emptyList()
+                    )
+
+                    Result.Success(productDetails)
                 } else {
-                    Result.Error(AppError.UnknownError("Prodotto non trovato"))
+                    Result.Error(AppError.UnknownError("Prodotto non trovato o senza nome"))
                 }
             } else {
-                Result.Error(AppError.ServerError(response.code(), "Errore"))
+                Result.Error(AppError.ServerError(response.code(), "Errore caricamento dettaglio"))
             }
         } catch (e: Exception) {
+            android.util.Log.e("DEBUG_PRODUCT_DETAIL", "Errore: ${e.message}", e)
             Result.Error(AppError.NetworkError(e.message ?: "Errore di rete"))
         }
     }

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_theme_background">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="Select Activity Type"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation">
+
+        <RadioGroup
+            android:id="@+id/rgActivityTypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp">
+
+            <!-- Indoor Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Indoor"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <RadioButton
+                android:id="@+id/rbDanza"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Danza"
+                android:paddingVertical="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbEsercizi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Esercizi di condizionamento"
+                android:paddingVertical="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbInattivita"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Inattività"
+                android:paddingVertical="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbSport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sport"
+                android:paddingVertical="12dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Outdoor Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Outdoor"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <RadioButton
+                android:id="@+id/rbAcquatiche"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Attività acquatiche e nautiche"
+                android:paddingVertical="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbInvernali"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Attività invernali"
+                android:paddingVertical="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbCamminata"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Camminata"
+                android:paddingVertical="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbCiclismo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ciclismo"
+                android:paddingVertical="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbCorsa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Corsa"
+                android:paddingVertical="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbPrato"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Prato e giardino"
+                android:paddingVertical="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbPesca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pesca e caccia"
+                android:paddingVertical="12dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Miscellaneous Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miscellaneous"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <RadioButton
+                android:id="@+id/rbDomestiche"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Attività domestiche"
+                android:paddingVertical="12dp" />
+
+        </RadioGroup>
+
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_theme_background"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,13 +2,19 @@ package com.example.nextcartapp.core.network
 
 import com.example.nextcartapp.data.remote.api.AuthApi
 import com.example.nextcartapp.data.remote.api.FilterApi
+import com.example.nextcartapp.data.remote.api.PhysicalActivityApi
 import com.example.nextcartapp.data.remote.api.ProductApi
+import com.example.nextcartapp.data.remote.api.ProfileApi
 import com.example.nextcartapp.data.repository.AuthRepositoryImpl
 import com.example.nextcartapp.data.repository.FilterRepositoryImpl
+import com.example.nextcartapp.data.repository.PhysicalActivityRepositoryImpl
 import com.example.nextcartapp.data.repository.ProductRepositoryImpl
+import com.example.nextcartapp.data.repository.UserRepositoryImpl
 import com.example.nextcartapp.domain.repository.AuthRepository
 import com.example.nextcartapp.domain.repository.FilterRepository
+import com.example.nextcartapp.domain.repository.PhysicalActivityRepository
 import com.example.nextcartapp.domain.repository.ProductRepository
+import com.example.nextcartapp.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -41,6 +47,31 @@ object ApiModule {
     @Singleton
     fun provideFilterRepository(filterApi: FilterApi): FilterRepository {
         return FilterRepositoryImpl(filterApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProfileApi(retrofit: Retrofit): ProfileApi {
+        return retrofit.create(ProfileApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(profileApi: ProfileApi): UserRepository {
+        return UserRepositoryImpl(profileApi)
+    }
+
+    // Physical Activity
+    @Provides
+    @Singleton
+    fun providePhysicalActivityApi(retrofit: Retrofit): PhysicalActivityApi {
+        return retrofit.create(PhysicalActivityApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providePhysicalActivityRepository(api: PhysicalActivityApi): PhysicalActivityRepository {
+        return PhysicalActivityRepositoryImpl(api)
     }
 }
 

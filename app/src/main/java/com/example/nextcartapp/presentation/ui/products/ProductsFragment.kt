@@ -51,8 +51,9 @@ class ProductsFragment : Fragment() {
 
     private fun setupRecyclerView() {
         adapter = ProductsAdapter { product ->
-            // TODO: navigazione dettaglio
-            Snackbar.make(binding.root, "Clicked: ${product.itName}", Snackbar.LENGTH_SHORT).show()
+            // Naviga ai dettagli
+            val action = ProductsFragmentDirections.actionProductsToDetails(product.productId)
+            findNavController().navigate(action)
         }
         binding.rvProducts.adapter = adapter
     }
@@ -138,7 +139,7 @@ class ProductsFragment : Fragment() {
                 }
 
                 R.id.nav_lifestyle -> {
-                    findNavController().navigate(R.id.wellnessFragment)
+                    findNavController().navigate(R.id.lifestyleFragment)
                     true
                 }
 
