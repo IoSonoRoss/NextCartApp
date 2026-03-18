@@ -19,50 +19,28 @@ class AuthRepositoryImpl @Inject constructor(
             val response = authApi.login(LoginRequestDto(email, password))
 
             if (response.isSuccessful) {
-                val token = response.body()?.accessToken
+                val body = response.body()
+                if (body != null) {
+                    // Salva sessione
+                    val userId = body.user?.consumerId?.toString() ?: "1"
+                    val userEmail = body.user?.email ?: email
+                    val userName = body.user?.name ?: email
 
-                if (token != null) {
-                    // Salva token temporaneo per chiamare /profile
                     sessionManager.saveSession(
-                        token = token,
-                        userId = "",
-                        name = "",
-                        email = email
+                        token = body.accessToken,
+                        userId = userId,
+                        name = userName,
+                        email = userEmail
                     )
-
-                    // Ottieni dati completi dal profilo
-                    try {
-                        val profileResponse = authApi.getProfile()
-
-                        if (profileResponse.isSuccessful) {
-                            val profile = profileResponse.body()
-
-                            if (profile != null) {
-                                sessionManager.saveSession(
-                                    token = token,
-                                    userId = profile.consumerId.toString(),
-                                    name = profile.name,
-                                    email = profile.email
-                                )
-                                android.util.Log.d("DEBUG_AUTH", "Profile caricato: ${profile.name}")
-                            }
-                        }
-                    } catch (e: Exception) {
-                        android.util.Log.e("DEBUG_AUTH", "Errore caricamento profile: ${e.message}")
-                    }
-
-                    Result.Success(token)
+                    Result.Success(body.accessToken)
                 } else {
-                    Result.Error(AppError.UnknownError("Token non ricevuto"))
+                    Result.Error(AppError.UnknownError("Response body is null"))
                 }
             } else {
-                when (response.code()) {
-                    401 -> Result.Error(AppError.UnauthorizedError("Credenziali non valide"))
-                    else -> Result.Error(AppError.ServerError(response.code(), "Errore server"))
-                }
+                Result.Error(AppError.ServerError(response.code(), "Login failed"))
             }
         } catch (e: Exception) {
-            Result.Error(AppError.NetworkError(e.message ?: "Errore di rete"))
+            Result.Error(AppError.NetworkError(e.message ?: "Network error"))
         }
     }
 

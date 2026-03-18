@@ -55,11 +55,11 @@ class SessionManager @Inject constructor(
 
     // Metodo per verificare se l'utente è loggato
     suspend fun isTokenValid(): Boolean {
-        val token = context.dataStore.data.first()[ACCESS_TOKEN_KEY]  // ← CONTEXT.dataStore
+        val token = context.dataStore.data.first()[ACCESS_TOKEN_KEY]
         return !token.isNullOrEmpty()
     }
 
-    fun isLoggedIn(): Flow<Boolean> = context.dataStore.data.map { preferences ->  // ← CONTEXT.dataStore
+    fun isLoggedIn(): Flow<Boolean> = context.dataStore.data.map { preferences ->
         !preferences[ACCESS_TOKEN_KEY].isNullOrEmpty()
     }
 }

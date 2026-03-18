@@ -1,4 +1,4 @@
-package com.example.nextcartapp.presentation.ui.lifestyle
+package com.example.nextcartapp.presentation.ui.health
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,28 +14,28 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nextcartapp.R
-import com.example.nextcartapp.databinding.FragmentLifestyleBinding
+import com.example.nextcartapp.databinding.FragmentManageHealthConditionsBinding
 import com.example.nextcartapp.presentation.ui.profile.ProfileViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LifestyleFragment : Fragment() {
+class ManageHealthConditionsFragment : Fragment() {
 
-    private var _binding: FragmentLifestyleBinding? = null
+    private var _binding: FragmentManageHealthConditionsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: LifestyleViewModel by viewModels()
+    private val viewModel: HealthViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by activityViewModels()
-    private lateinit var adapter: PhysicalActivityAdapter
+    private lateinit var adapter: HealthConditionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLifestyleBinding.inflate(inflater, container, false)
+        _binding = FragmentManageHealthConditionsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -45,8 +45,8 @@ class LifestyleFragment : Fragment() {
         setupToolbar()
         setupRecyclerView()
         setupFab()
-        setupBottomNavigation()
-        observeActivities()
+        observeHealthConditions()
+        loadUserHealthConditions()
     }
 
     private fun setupToolbar() {
@@ -56,30 +56,36 @@ class LifestyleFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = PhysicalActivityAdapter(
-            onDeleteClick = { activity ->
-                viewModel.deleteActivity(activity.physicalActivityId)
+        adapter = HealthConditionAdapter(
+            onDeleteClick = { condition ->
+                val userId = profileViewModel.getUserId() ?: 1
+                viewModel.removeHealthCondition(userId, condition.healthConditionId)
             }
         )
 
-        binding.rvActivities.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvActivities.adapter = adapter
+        binding.rvHealthConditions.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvHealthConditions.adapter = adapter
     }
 
     private fun setupFab() {
-        binding.fabAddActivity.setOnClickListener {
-            findNavController().navigate(R.id.action_lifestyle_to_addActivity)
+        binding.fabAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_manageHealth_to_addHealth)
         }
     }
 
-    private fun observeActivities() {
+    private fun loadUserHealthConditions() {
+        val userId = profileViewModel.getUserId() ?: 1
+        viewModel.loadUserHealthConditions(userId)
+    }
+
+    private fun observeHealthConditions() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    if (state.activities.isEmpty() && !state.isLoading) {
+                    if (state.userHealthConditions.isEmpty() && !state.isLoading) {
                         showEmptyState()
                     } else {
-                        showActivitiesList(state.activities)
+                        showHealthConditionsList(state.userHealthConditions)
                     }
 
                     if (state.error != null) {
@@ -92,40 +98,13 @@ class LifestyleFragment : Fragment() {
 
     private fun showEmptyState() {
         binding.emptyState.isVisible = true
-        binding.rvActivities.isVisible = false
+        binding.rvHealthConditions.isVisible = false
     }
 
-    private fun showActivitiesList(activities: List<com.example.nextcartapp.domain.model.PhysicalActivity>) {
+    private fun showHealthConditionsList(conditions: List<com.example.nextcartapp.domain.model.HealthCondition>) {
         binding.emptyState.isVisible = false
-        binding.rvActivities.isVisible = true
-        adapter.submitList(activities)
-    }
-
-    private fun setupBottomNavigation() {
-        binding.bottomNavigation.selectedItemId = R.id.nav_lifestyle
-
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    findNavController().navigate(R.id.homeFragment)
-                    true
-                }
-                R.id.nav_profile -> {
-                    findNavController().navigate(R.id.profileFragment)
-                    true
-                }
-                R.id.nav_lifestyle -> true
-                R.id.nav_products -> {
-                    findNavController().navigate(R.id.productsFragment)
-                    true
-                }
-                R.id.nav_scan -> {
-                    findNavController().navigate(R.id.scannerFragment)
-                    true
-                }
-                else -> false
-            }
-        }
+        binding.rvHealthConditions.isVisible = true
+        adapter.submitList(conditions)
     }
 
     override fun onDestroyView() {

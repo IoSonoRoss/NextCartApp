@@ -51,6 +51,10 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profile_to_editProfile)
         }
 
+        binding.clOptionHealth.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_manageHealth)
+        }
+
         setupBottomNavigation()
         setupLogout()
         observeProfile()

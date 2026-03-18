@@ -144,6 +144,9 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profile_to_manageHealth"
+            app:destination="@id/manageHealthConditionsFragment" />
     </fragment>
 
     <fragment
@@ -201,5 +204,54 @@
         android:name="com.example.nextcartapp.presentation.ui.lifestyle.SelectDateTimeFragment"
         android:label="Select Date and Duration"
         tools:layout="@layout/fragment_select_date_time" />
+
+    <!-- MANAGE HEALTH CONDITIONS -->
+    <fragment
+        android:id="@+id/manageHealthConditionsFragment"
+        android:name="com.example.nextcartapp.presentation.ui.health.ManageHealthConditionsFragment"
+        android:label="Manage Health Conditions"
+        tools:layout="@layout/fragment_manage_health_conditions">
+        <action
+            android:id="@+id/action_manageHealth_to_addHealth"
+            app:destination="@id/addHealthConditionFragment" />
+    </fragment>
+
+    <!-- ADD HEALTH CONDITION -->
+    <fragment
+        android:id="@+id/addHealthConditionFragment"
+        android:name="com.example.nextcartapp.presentation.ui.health.AddHealthConditionFragment"
+        android:label="Add Health Condition"
+        tools:layout="@layout/fragment_add_health_condition">
+        <action
+            android:id="@+id/action_addHealth_to_selectAge"
+            app:destination="@id/selectAgeCategoryFragment" />
+        <action
+            android:id="@+id/action_addHealth_to_selectPathologies"
+            app:destination="@id/selectPathologiesFragment" />
+        <action
+            android:id="@+id/action_addHealth_to_selectPhysiological"
+            app:destination="@id/selectPhysiologicalStatesFragment" />
+    </fragment>
+
+    <!-- SELECT AGE CATEGORY -->
+    <fragment
+        android:id="@+id/selectAgeCategoryFragment"
+        android:name="com.example.nextcartapp.presentation.ui.health.SelectAgeCategoryFragment"
+        android:label="Select Age Category"
+        tools:layout="@layout/fragment_select_age_category" />
+
+    <!-- SELECT PATHOLOGIES -->
+    <fragment
+        android:id="@+id/selectPathologiesFragment"
+        android:name="com.example.nextcartapp.presentation.ui.health.SelectPathologiesFragment"
+        android:label="Select Pathologies"
+        tools:layout="@layout/fragment_select_pathologies" />
+
+    <!-- SELECT PHYSIOLOGICAL STATES -->
+    <fragment
+        android:id="@+id/selectPhysiologicalStatesFragment"
+        android:name="com.example.nextcartapp.presentation.ui.health.SelectPhysiologicalStatesFragment"
+        android:label="Select Physiological States"
+        tools:layout="@layout/fragment_select_physiological_states" />
 
 </navigation>

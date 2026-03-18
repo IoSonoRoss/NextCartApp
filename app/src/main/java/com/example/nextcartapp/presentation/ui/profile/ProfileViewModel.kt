@@ -31,6 +31,10 @@ class ProfileViewModel @Inject constructor(
         loadProfile()
     }
 
+    fun getUserId(): Int? {
+        return _uiState.value.user?.userId
+    }
+
     fun loadProfile() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
