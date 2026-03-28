@@ -147,6 +147,9 @@
         <action
             android:id="@+id/action_profile_to_manageHealth"
             app:destination="@id/manageHealthConditionsFragment" />
+        <action
+            android:id="@+id/action_profile_to_bodyComposition"
+            app:destination="@id/bodyCompositionSummaryFragment" />
     </fragment>
 
     <fragment
@@ -253,5 +256,54 @@
         android:name="com.example.nextcartapp.presentation.ui.health.SelectPhysiologicalStatesFragment"
         android:label="Select Physiological States"
         tools:layout="@layout/fragment_select_physiological_states" />
+
+    <!-- BODY COMPOSITION SUMMARY -->
+    <fragment
+        android:id="@+id/bodyCompositionSummaryFragment"
+        android:name="com.example.nextcartapp.presentation.ui.bodycomposition.BodyCompositionSummaryFragment"
+        android:label="Body Composition Summary"
+        tools:layout="@layout/fragment_body_composition_summary">
+        <action
+            android:id="@+id/action_bodyCompositionSummary_to_addBodyComposition"
+            app:destination="@id/addBodyCompositionFragment" />
+    </fragment>
+
+    <!-- ADD BODY COMPOSITION -->
+    <fragment
+        android:id="@+id/addBodyCompositionFragment"
+        android:name="com.example.nextcartapp.presentation.ui.bodycomposition.AddBodyCompositionFragment"
+        android:label="Add Body Composition"
+        tools:layout="@layout/fragment_add_body_composition">
+        <action
+            android:id="@+id/action_addBodyComposition_to_selectDateTime"
+            app:destination="@id/selectDateTimeBodyFragment" />
+        <action
+            android:id="@+id/action_addBodyComposition_to_selectWeight"
+            app:destination="@id/selectWeightFragment" />
+        <action
+            android:id="@+id/action_addBodyComposition_to_selectHeight"
+            app:destination="@id/selectHeightFragment" />
+    </fragment>
+
+    <!-- SELECT DATE TIME -->
+    <fragment
+        android:id="@+id/selectDateTimeBodyFragment"
+        android:name="com.example.nextcartapp.presentation.ui.bodycomposition.SelectDateTimeBodyFragment"
+        android:label="Select Date and Time"
+        tools:layout="@layout/fragment_select_date_time_body" />
+
+    <!-- SELECT WEIGHT -->
+    <fragment
+        android:id="@+id/selectWeightFragment"
+        android:name="com.example.nextcartapp.presentation.ui.bodycomposition.SelectWeightFragment"
+        android:label="Select Weight"
+        tools:layout="@layout/fragment_select_weight" />
+
+    <!-- SELECT HEIGHT -->
+    <fragment
+        android:id="@+id/selectHeightFragment"
+        android:name="com.example.nextcartapp.presentation.ui.bodycomposition.SelectHeightFragment"
+        android:label="Select Height"
+        tools:layout="@layout/fragment_select_height" />
 
 </navigation>

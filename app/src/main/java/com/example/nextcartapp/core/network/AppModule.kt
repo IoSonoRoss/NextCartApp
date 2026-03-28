@@ -1,18 +1,21 @@
 package com.example.nextcartapp.core.network
 
 import com.example.nextcartapp.data.remote.api.AuthApi
+import com.example.nextcartapp.data.remote.api.BodyCompositionApi
 import com.example.nextcartapp.data.remote.api.FilterApi
 import com.example.nextcartapp.data.remote.api.HealthConditionApi
 import com.example.nextcartapp.data.remote.api.PhysicalActivityApi
 import com.example.nextcartapp.data.remote.api.ProductApi
 import com.example.nextcartapp.data.remote.api.ProfileApi
 import com.example.nextcartapp.data.repository.AuthRepositoryImpl
+import com.example.nextcartapp.data.repository.BodyCompositionRepositoryImpl
 import com.example.nextcartapp.data.repository.FilterRepositoryImpl
 import com.example.nextcartapp.data.repository.HealthConditionRepositoryImpl
 import com.example.nextcartapp.data.repository.PhysicalActivityRepositoryImpl
 import com.example.nextcartapp.data.repository.ProductRepositoryImpl
 import com.example.nextcartapp.data.repository.UserRepositoryImpl
 import com.example.nextcartapp.domain.repository.AuthRepository
+import com.example.nextcartapp.domain.repository.BodyCompositionRepository
 import com.example.nextcartapp.domain.repository.FilterRepository
 import com.example.nextcartapp.domain.repository.HealthConditionRepository
 import com.example.nextcartapp.domain.repository.PhysicalActivityRepository
@@ -90,6 +93,21 @@ object ApiModule {
         api: HealthConditionApi
     ): HealthConditionRepository {
         return HealthConditionRepositoryImpl(api)
+    }
+
+    // Body Composition
+    @Provides
+    @Singleton
+    fun provideBodyCompositionApi(retrofit: Retrofit): BodyCompositionApi {
+        return retrofit.create(BodyCompositionApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBodyCompositionRepository(
+        api: BodyCompositionApi
+    ): BodyCompositionRepository {
+        return BodyCompositionRepositoryImpl(api)
     }
 }
 

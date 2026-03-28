@@ -55,6 +55,10 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profile_to_manageHealth)
         }
 
+        binding.clOptionBodyComposition.setOnClickListener {
+            findNavController().navigate(R.id.action_profile_to_bodyComposition)
+        }
+
         setupBottomNavigation()
         setupLogout()
         observeProfile()
