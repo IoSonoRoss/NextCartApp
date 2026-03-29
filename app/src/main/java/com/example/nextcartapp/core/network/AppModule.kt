@@ -5,6 +5,7 @@ import com.example.nextcartapp.data.remote.api.BodyCompositionApi
 import com.example.nextcartapp.data.remote.api.CartApi
 import com.example.nextcartapp.data.remote.api.FilterApi
 import com.example.nextcartapp.data.remote.api.HealthConditionApi
+import com.example.nextcartapp.data.remote.api.MealApi
 import com.example.nextcartapp.data.remote.api.PhysicalActivityApi
 import com.example.nextcartapp.data.remote.api.ProductApi
 import com.example.nextcartapp.data.remote.api.ProfileApi
@@ -13,6 +14,7 @@ import com.example.nextcartapp.data.repository.BodyCompositionRepositoryImpl
 import com.example.nextcartapp.data.repository.CartRepositoryImpl
 import com.example.nextcartapp.data.repository.FilterRepositoryImpl
 import com.example.nextcartapp.data.repository.HealthConditionRepositoryImpl
+import com.example.nextcartapp.data.repository.MealRepositoryImpl
 import com.example.nextcartapp.data.repository.PhysicalActivityRepositoryImpl
 import com.example.nextcartapp.data.repository.ProductRepositoryImpl
 import com.example.nextcartapp.data.repository.UserRepositoryImpl
@@ -21,6 +23,7 @@ import com.example.nextcartapp.domain.repository.BodyCompositionRepository
 import com.example.nextcartapp.domain.repository.CartRepository
 import com.example.nextcartapp.domain.repository.FilterRepository
 import com.example.nextcartapp.domain.repository.HealthConditionRepository
+import com.example.nextcartapp.domain.repository.MealRepository
 import com.example.nextcartapp.domain.repository.PhysicalActivityRepository
 import com.example.nextcartapp.domain.repository.ProductRepository
 import com.example.nextcartapp.domain.repository.UserRepository
@@ -124,6 +127,18 @@ object ApiModule {
     @Singleton
     fun provideCartRepository(api: CartApi): CartRepository {
         return CartRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMealApi(retrofit: Retrofit): MealApi {
+        return retrofit.create(MealApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMealRepository(api: MealApi): MealRepository {
+        return MealRepositoryImpl(api)
     }
 }
 

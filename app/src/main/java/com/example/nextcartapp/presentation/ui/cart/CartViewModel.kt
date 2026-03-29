@@ -1,5 +1,6 @@
 package com.example.nextcartapp.presentation.ui.cart
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nextcartapp.core.util.Result
@@ -68,18 +69,18 @@ class CartViewModel @Inject constructor(
     /**
      * Aggiunge un prodotto a un carrello già esistente.
      */
-    fun addProductToSelectedCart(cartId: Int, productId: String) {
+    fun addProductToSelectedCart(userId: Int, cartId: Int, productId: String) {
+        Log.d("CART_DEBUG", "Tentativo aggiunta: Prodotto $productId in Carrello $cartId")
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-
+            _uiState.update { it.copy(isLoading = true) }
             when (val result = addProductToCartUseCase(cartId, productId)) {
                 is Result.Success -> {
-                    _uiState.update { it.copy(isLoading = false, actionSuccess = true) }
+                    // FONDAMENTALE: Ricarichiamo i carrelli dal server per avere la lista aggiornata
+                    loadUserCarts(userId)
+                    _uiState.update { it.copy(actionSuccess = true) }
                 }
                 is Result.Error -> {
-                    _uiState.update {
-                        it.copy(isLoading = false, error = "Errore nell'aggiunta del prodotto al carrello")
-                    }
+                    _uiState.update { it.copy(isLoading = false, error = "Errore nell'aggiunta") }
                 }
             }
         }
@@ -93,30 +94,20 @@ class CartViewModel @Inject constructor(
      */
     fun createCartAndAddProduct(userId: Int, cartName: String, productId: String) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-
-            // 1. Fase di creazione del carrello
+            _uiState.update { it.copy(isLoading = true) }
             when (val createResult = createCartUseCase(userId, cartName)) {
                 is Result.Success -> {
                     val newCartId = createResult.data.cartId
-
-                    // 2. Fase di aggiunta del prodotto (automatica dopo il successo della creazione)
                     when (val addResult = addProductToCartUseCase(newCartId, productId)) {
                         is Result.Success -> {
-                            _uiState.update { it.copy(isLoading = false, actionSuccess = true) }
+                            // REFRESH ANCHE QUI
+                            loadUserCarts(userId)
+                            _uiState.update { it.copy(actionSuccess = true) }
                         }
-                        is Result.Error -> {
-                            _uiState.update {
-                                it.copy(isLoading = false, error = "Carrello creato, ma errore nell'inserimento del prodotto")
-                            }
-                        }
+                        is Result.Error -> { _uiState.update { it.copy(isLoading = false) } }
                     }
                 }
-                is Result.Error -> {
-                    _uiState.update {
-                        it.copy(isLoading = false, error = "Impossibile creare il nuovo carrello")
-                    }
-                }
+                is Result.Error -> { _uiState.update { it.copy(isLoading = false) } }
             }
         }
     }

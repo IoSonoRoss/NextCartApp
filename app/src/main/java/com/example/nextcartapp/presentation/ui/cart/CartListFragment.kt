@@ -31,7 +31,7 @@ class CartListFragment : Fragment() {
     private var _binding: FragmentCartListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CartViewModel by viewModels()
+    private val viewModel: CartViewModel by activityViewModels()
     private val profileViewModel: ProfileViewModel by activityViewModels()
 
     private lateinit var cartAdapter: CartManageAdapter

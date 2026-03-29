@@ -59,6 +59,10 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_profile_to_bodyComposition)
         }
 
+        binding.clOptionFamily.setOnClickListener {
+            //findNavController().navigate(R.id.action_profile_to_family)
+        }
+
         setupBottomNavigation()
         setupLogout()
         observeProfile()
@@ -106,7 +110,7 @@ class ProfileFragment : Fragment() {
                     true
                 }
                 R.id.nav_cart -> {
-                    // Già qui
+                    findNavController().navigate(R.id.cartFragment)
                     true
                 }
                 R.id.nav_lifestyle -> {

@@ -18,12 +18,12 @@ class CartRepositoryImpl @Inject constructor(
                 Cart(
                     cartId = dto.cartId,
                     name = dto.name,
-                    consumerId = userId, // Dato che il server non lo passa, mettiamo un valore dummy o 0
+                    consumerId = userId,
                     items = dto.items.map { itemDto ->
                         CartItem(
-                            cartItemId = itemDto.cartItemId.toString(), // Convertiamo l'ID numerico in Stringa per il Domain
-                            productId = itemDto.product.productId,      // Accesso all'oggetto annidato
-                            productName = itemDto.product.productName,  // Accesso all'oggetto annidato
+                            cartItemId = itemDto.cartItemId.toString(),
+                            productId = itemDto.product?.productId ?: "", // Safe call + fallback
+                            productName = itemDto.product?.productName ?: "Prodotto sconosciuto",
                             quantity = itemDto.quantity
                         )
                     }

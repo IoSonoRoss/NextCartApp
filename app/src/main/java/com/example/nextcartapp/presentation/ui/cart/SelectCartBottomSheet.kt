@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SelectCartBottomSheet : BottomSheetDialogFragment() {
 
-    private val viewModel: CartViewModel by viewModels()
+    private val viewModel: CartViewModel by activityViewModels()
     private val profileViewModel: ProfileViewModel by activityViewModels()
 
     private var _binding: LayoutSelectCartBottomSheetBinding? = null
@@ -63,7 +63,8 @@ class SelectCartBottomSheet : BottomSheetDialogFragment() {
 
         // 2. Setup RecyclerView
         val adapter = CartSelectionAdapter { cart ->
-            viewModel.addProductToSelectedCart(cart.cartId, productId)
+            val userId = profileViewModel.getUserId() ?: 1
+            viewModel.addProductToSelectedCart(userId, cart.cartId, productId)
         }
         binding.rvCarts.adapter = adapter
         binding.rvCarts.layoutManager = LinearLayoutManager(requireContext())
