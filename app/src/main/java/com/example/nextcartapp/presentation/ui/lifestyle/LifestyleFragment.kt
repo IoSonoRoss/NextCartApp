@@ -110,8 +110,8 @@ class LifestyleFragment : Fragment() {
                     findNavController().navigate(R.id.homeFragment)
                     true
                 }
-                R.id.nav_profile -> {
-                    findNavController().navigate(R.id.profileFragment)
+                R.id.nav_cart -> {
+                    findNavController().navigate(R.id.nav_cart)
                     true
                 }
                 R.id.nav_lifestyle -> true

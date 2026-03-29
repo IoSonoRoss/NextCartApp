@@ -133,7 +133,7 @@ class ProductsFragment : Fragment() {
                     true
                 }
 
-                R.id.nav_profile -> {
+                R.id.nav_cart -> {
                     findNavController().navigate(R.id.profileFragment)
                     true
                 }

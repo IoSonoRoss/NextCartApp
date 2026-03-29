@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Colore di sfondo del pannello (bianco o quello del tuo tema) -->
+    <solid android:color="#FFFFFF" />
+
+    <!-- Arrotondamento solo degli angoli superiori (UX tipica dei Bottom Sheet) -->
+    <corners
+        android:topLeftRadius="24dp"
+        android:topRightRadius="24dp" />
+</shape>

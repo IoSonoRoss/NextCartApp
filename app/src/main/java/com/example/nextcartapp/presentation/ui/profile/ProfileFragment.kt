@@ -105,7 +105,7 @@ class ProfileFragment : Fragment() {
                     findNavController().navigate(R.id.homeFragment)
                     true
                 }
-                R.id.nav_profile -> {
+                R.id.nav_cart -> {
                     // Già qui
                     true
                 }

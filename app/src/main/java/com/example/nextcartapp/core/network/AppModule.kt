@@ -2,6 +2,7 @@ package com.example.nextcartapp.core.network
 
 import com.example.nextcartapp.data.remote.api.AuthApi
 import com.example.nextcartapp.data.remote.api.BodyCompositionApi
+import com.example.nextcartapp.data.remote.api.CartApi
 import com.example.nextcartapp.data.remote.api.FilterApi
 import com.example.nextcartapp.data.remote.api.HealthConditionApi
 import com.example.nextcartapp.data.remote.api.PhysicalActivityApi
@@ -9,6 +10,7 @@ import com.example.nextcartapp.data.remote.api.ProductApi
 import com.example.nextcartapp.data.remote.api.ProfileApi
 import com.example.nextcartapp.data.repository.AuthRepositoryImpl
 import com.example.nextcartapp.data.repository.BodyCompositionRepositoryImpl
+import com.example.nextcartapp.data.repository.CartRepositoryImpl
 import com.example.nextcartapp.data.repository.FilterRepositoryImpl
 import com.example.nextcartapp.data.repository.HealthConditionRepositoryImpl
 import com.example.nextcartapp.data.repository.PhysicalActivityRepositoryImpl
@@ -16,6 +18,7 @@ import com.example.nextcartapp.data.repository.ProductRepositoryImpl
 import com.example.nextcartapp.data.repository.UserRepositoryImpl
 import com.example.nextcartapp.domain.repository.AuthRepository
 import com.example.nextcartapp.domain.repository.BodyCompositionRepository
+import com.example.nextcartapp.domain.repository.CartRepository
 import com.example.nextcartapp.domain.repository.FilterRepository
 import com.example.nextcartapp.domain.repository.HealthConditionRepository
 import com.example.nextcartapp.domain.repository.PhysicalActivityRepository
@@ -108,6 +111,19 @@ object ApiModule {
         api: BodyCompositionApi
     ): BodyCompositionRepository {
         return BodyCompositionRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartApi(retrofit: Retrofit): CartApi {
+        return retrofit.create(CartApi::class.java)
+    }
+
+    // 2. Spieghiamo a Hilt che quando serve CartRepository, deve dare CartRepositoryImpl
+    @Provides
+    @Singleton
+    fun provideCartRepository(api: CartApi): CartRepository {
+        return CartRepositoryImpl(api)
     }
 }
 

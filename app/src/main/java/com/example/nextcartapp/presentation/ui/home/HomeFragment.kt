@@ -50,16 +50,16 @@ class HomeFragment : Fragment() {
                     findNavController().navigate(R.id.action_home_to_products)
                     true
                 }
-                R.id.nav_profile -> {
-                    // TODO: navigazione profilo
+                R.id.nav_cart -> {
+                    findNavController().navigate(R.id.action_home_to_cart)
                     true
                 }
                 R.id.nav_lifestyle -> {
-                    // TODO: navigazione lifestyle
+                    findNavController().navigate(R.id.action_home_to_lifestyle)
                     true
                 }
                 R.id.nav_scan -> {
-                    // TODO: navigazione scanner
+                    findNavController().navigate(R.id.scannerFragment)
                     true
                 }
                 else -> false

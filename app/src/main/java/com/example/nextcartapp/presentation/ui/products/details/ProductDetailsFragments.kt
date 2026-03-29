@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.nextcartapp.R
 import com.example.nextcartapp.databinding.FragmentProductDetailsBinding
+import com.example.nextcartapp.presentation.ui.cart.SelectCartBottomSheet
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -71,6 +73,19 @@ class ProductDetailsFragment : Fragment() {
         // Allergens
         binding.headerAllergens.setOnClickListener {
             toggleCard(binding.tvAllergens, binding.iconAllergens)
+        }
+
+        binding.btnAddToCart.setOnClickListener {
+            // Recuperiamo il prodotto corrente dallo stato del ViewModel dei dettagli
+            val currentProduct = viewModel.uiState.value.productDetails
+
+            if (currentProduct != null) {
+                // Apriamo il Bottom Sheet passando l'ID del prodotto
+                val bottomSheet = SelectCartBottomSheet.newInstance(currentProduct.productId)
+                bottomSheet.show(parentFragmentManager, "SelectCartBottomSheet")
+            } else {
+                Toast.makeText(requireContext(), "Dati prodotto non pronti", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

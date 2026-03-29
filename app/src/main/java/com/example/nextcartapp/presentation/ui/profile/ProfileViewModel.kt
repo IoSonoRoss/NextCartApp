@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nextcartapp.domain.model.User
 import com.example.nextcartapp.core.util.Result
+import com.example.nextcartapp.domain.usecase.cart.GetCartUseCase
 import com.example.nextcartapp.domain.usecase.profile.GetUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

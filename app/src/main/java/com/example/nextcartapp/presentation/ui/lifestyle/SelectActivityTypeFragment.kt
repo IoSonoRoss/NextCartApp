@@ -65,8 +65,8 @@ class SelectActivityTypeFragment : Fragment() {
                     findNavController().navigate(R.id.homeFragment)
                     true
                 }
-                R.id.nav_profile -> {
-                    findNavController().navigate(R.id.profileFragment)
+                R.id.nav_cart -> {
+                    findNavController().navigate(R.id.cartFragment)
                     true
                 }
                 R.id.nav_lifestyle -> {

@@ -69,8 +69,39 @@
             android:id="@+id/action_home_to_products"
             app:destination="@id/productsFragment" />
         <action
+            android:id="@+id/action_home_to_cart"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_home_to_scanner"
+            app:destination="@id/scannerFragment" />
+        <action
+            android:id="@+id/action_home_to_lifestyle"
+            app:destination="@id/lifestyleFragment" />
+        <action
             android:id="@+id/action_home_to_profile"
             app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.nextcartapp.presentation.ui.cart.CartListFragment"
+        android:label="I miei Carrelli"
+        tools:layout="@layout/fragment_cart_list">
+
+    <!-- Action per andare al dettaglio (usa SafeArgs se possibile) -->
+    <action
+        android:id="@+id/action_cartList_to_cartDetails"
+        app:destination="@id/cartDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cartDetailsFragment"
+        android:name="com.example.nextcartapp.presentation.ui.cart.CartDetailsFragment"
+        android:label="{cartName}"
+        tools:layout="@layout/fragment_cart_details">
+        <argument
+            android:name="cartId"
+            app:argType="integer" />
     </fragment>
 
     <!-- PRODUCTS FRAGMENT -->
