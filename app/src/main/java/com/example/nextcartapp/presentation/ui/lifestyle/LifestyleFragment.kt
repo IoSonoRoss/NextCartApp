@@ -111,7 +111,7 @@ class LifestyleFragment : Fragment() {
                     true
                 }
                 R.id.nav_cart -> {
-                    findNavController().navigate(R.id.nav_cart)
+                    findNavController().navigate(R.id.cartFragment)
                     true
                 }
                 R.id.nav_lifestyle -> true
