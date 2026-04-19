@@ -9,6 +9,7 @@ import com.example.nextcartapp.domain.usecase.cart.AddProductToCartUseCase
 import com.example.nextcartapp.domain.usecase.cart.CreateCartUseCase
 import com.example.nextcartapp.domain.usecase.cart.DeleteCartUseCase
 import com.example.nextcartapp.domain.usecase.cart.GetCartUseCase
+import com.example.nextcartapp.domain.usecase.cart.CheckoutUseCase // Nuovo import
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -29,7 +30,8 @@ class CartViewModel @Inject constructor(
     private val getCartUseCase: GetCartUseCase,
     private val addProductToCartUseCase: AddProductToCartUseCase,
     private val createCartUseCase: CreateCartUseCase,
-    private val deleteCartUseCase: DeleteCartUseCase
+    private val deleteCartUseCase: DeleteCartUseCase,
+    private val checkoutUseCase: CheckoutUseCase // Iniettato qui
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CartSelectionUiState())
@@ -60,6 +62,28 @@ class CartViewModel @Inject constructor(
                 is Result.Error -> {
                     _uiState.update {
                         it.copy(isLoading = false, error = "Errore durante il caricamento dei carrelli")
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Esegue il checkout del carrello: i prodotti vengono spostati in dispensa nel backend.
+     */
+    fun checkout(cartId: Int, userId: Int) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            when (val result = checkoutUseCase(cartId)) {
+                is Result.Success -> {
+                    // Dopo il checkout, il carrello potrebbe essere rimosso o cambiato di stato
+                    // Ricarichiamo la lista per sincronizzare la UI
+                    loadUserCarts(userId)
+                    _uiState.update { it.copy(isLoading = false, actionSuccess = true) }
+                }
+                is Result.Error -> {
+                    _uiState.update {
+                        it.copy(isLoading = false, error = "Errore durante il completamento della spesa")
                     }
                 }
             }
@@ -136,7 +160,6 @@ class CartViewModel @Inject constructor(
     fun deleteCart(userId: Int, cartId: Int) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            // Assicurati di aver iniettato deleteCartUseCase nel costruttore del ViewModel
             when (val result = deleteCartUseCase(cartId)) {
                 is Result.Success -> {
                     // Dopo l'eliminazione, ricarichiamo la lista aggiornata

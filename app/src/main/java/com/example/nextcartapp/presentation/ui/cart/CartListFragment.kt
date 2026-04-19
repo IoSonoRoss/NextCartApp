@@ -93,6 +93,8 @@ class CartListFragment : Fragment() {
 
         // Chiamata dati
         viewModel.loadUserCarts(currentUserId)
+
+        setupBottomNavigation()
     }
 
     private fun showDeleteConfirmation(cart: Cart, userId: Int) {
@@ -121,6 +123,33 @@ class CartListFragment : Fragment() {
             }
             .setNegativeButton("Annulla", null)
             .show()
+    }
+
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    findNavController().navigate(R.id.homeFragment)
+                    true
+                }
+                R.id.nav_cart -> {
+                    true
+                }
+                R.id.nav_lifestyle -> {
+                    findNavController().navigate(R.id.lifestyleFragment)
+                    true
+                }
+                R.id.nav_products -> {
+                    findNavController().navigate(R.id.productsFragment)
+                    true
+                }
+                R.id.nav_scan -> {
+                    findNavController().navigate(R.id.scannerFragment)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onDestroyView() {

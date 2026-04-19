@@ -64,4 +64,15 @@ class CartRepositoryImpl @Inject constructor(
     } catch (e: Exception) {
         Result.Error(AppError.NetworkError(e.message ?: "Error"))
     }
+
+    override suspend fun checkout(cartId: Int): Result<Unit> = try {
+        val response = api.checkoutCart(cartId)
+        if (response.isSuccessful) {
+            Result.Success(Unit)
+        } else {
+            Result.Error(AppError.ServerError(response.code(), "Errore durante il checkout"))
+        }
+    } catch (e: Exception) {
+        Result.Error(AppError.NetworkError(e.message ?: "Errore di rete"))
+    }
 }

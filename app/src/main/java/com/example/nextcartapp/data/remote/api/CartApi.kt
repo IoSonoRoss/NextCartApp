@@ -19,4 +19,7 @@ interface CartApi {
 
     @DELETE("cart/{cartId}")
     suspend fun deleteCart(@Path("cartId") cartId: Int): Response<Unit>
+
+    @POST("cart/{cartId}/checkout")
+    suspend fun checkoutCart(@Path("cartId") cartId: Int): Response<Unit>
 }

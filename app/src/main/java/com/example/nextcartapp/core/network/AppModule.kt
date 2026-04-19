@@ -6,6 +6,7 @@ import com.example.nextcartapp.data.remote.api.CartApi
 import com.example.nextcartapp.data.remote.api.FilterApi
 import com.example.nextcartapp.data.remote.api.HealthConditionApi
 import com.example.nextcartapp.data.remote.api.MealApi
+import com.example.nextcartapp.data.remote.api.PantryApi
 import com.example.nextcartapp.data.remote.api.PhysicalActivityApi
 import com.example.nextcartapp.data.remote.api.ProductApi
 import com.example.nextcartapp.data.remote.api.ProfileApi
@@ -140,6 +141,14 @@ object ApiModule {
     fun provideMealRepository(api: MealApi): MealRepository {
         return MealRepositoryImpl(api)
     }
+
+    @Provides
+    @Singleton
+    fun providePantryApi(retrofit: Retrofit): PantryApi {
+        return retrofit.create(PantryApi::class.java)
+    }
+
+
 }
 
 @Module

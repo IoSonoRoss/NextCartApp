@@ -25,7 +25,13 @@ data class ProductDto(
     val productAllergens: List<ProductAllergenDto>? = emptyList(),
 
     @SerializedName("nutritionalInformationValues")
-    val nutritionalInformationValues: List<NutritionalInfoDto>? = emptyList()
+    val nutritionalInformationValues: List<NutritionalInfoDto>? = emptyList(),
+
+    @SerializedName("unitType")
+    val unitType: String, // UNIT, WEIGHT_G, VOLUME_ML
+
+    @SerializedName("defaultPackageSize")
+    val defaultPackageSize: Float?
 )
 
 // ProductCategory DTO

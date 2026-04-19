@@ -1,6 +1,7 @@
 package com.example.nextcartapp.data.repository
 
 import com.example.nextcartapp.core.util.AppError
+import com.example.nextcartapp.core.util.ProductUnit
 import com.example.nextcartapp.core.util.Result
 import com.example.nextcartapp.data.remote.api.ProductApi
 import com.example.nextcartapp.domain.model.NutritionalValue
@@ -39,7 +40,13 @@ class ProductRepositoryImpl @Inject constructor(
                     } else {
                         Product(
                             productId = dto.productId,
-                            name = dto.name,
+                            name = dto.name ?: "",
+                            unitType = try {
+                                ProductUnit.valueOf(dto.unitType)
+                            } catch(e: Exception) {
+                                ProductUnit.UNIT
+                            }, // AGGIUNGI QUESTA RIGA
+                            defaultPackageSize = dto.defaultPackageSize, // E QUESTA
                             itName = dto.itName,
                             categoryName = dto.productCategory?.category,
                             imageUrl = null
