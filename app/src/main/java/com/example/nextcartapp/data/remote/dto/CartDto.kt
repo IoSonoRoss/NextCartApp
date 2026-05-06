@@ -27,5 +27,5 @@ data class CreateCartDto(
 
 data class AddCartItemDto(
     @SerializedName("productId") val productId: String,
-    @SerializedName("quantity") val quantity: Int = 1
+    @SerializedName("quantity") val quantity: Float
 )

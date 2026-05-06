@@ -1,5 +1,6 @@
 package com.example.nextcartapp.data.repository
 
+import android.util.Log
 import com.example.nextcartapp.core.util.AppError
 import com.example.nextcartapp.core.util.ProductUnit
 import com.example.nextcartapp.core.util.Result
@@ -16,91 +17,80 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun getAllProducts(): Result<List<Product>> {
         return try {
-            android.util.Log.d("DEBUG_PRODUCTS", "Chiamata getAllProducts...")
             val response = productApi.getAllProducts()
-            android.util.Log.d("DEBUG_PRODUCTS", "Response code: ${response.code()}")
-
             if (response.isSuccessful) {
                 val dtos = response.body() ?: emptyList()
-                android.util.Log.d("DEBUG_PRODUCTS", "Prodotti ricevuti: ${dtos.size}")
-
-                if (dtos.isNotEmpty()) {
-                    android.util.Log.d("DEBUG_DTO", "=== PRIMO PRODOTTO ===")
-                    android.util.Log.d("DEBUG_DTO", "ProductId: ${dtos[0].productId}")
-                    android.util.Log.d("DEBUG_DTO", "Name: ${dtos[0].name}")
-                    android.util.Log.d("DEBUG_DTO", "ItName: ${dtos[0].itName}")
-                    android.util.Log.d("DEBUG_DTO", "ProductCategory oggetto: ${dtos[0].productCategory}")
-                    android.util.Log.d("DEBUG_DTO", "CategoryName: ${dtos[0].productCategory?.category}")
-                }
-
                 val products = dtos.mapNotNull { dto ->
-                    if (dto.name.isNullOrBlank()) {
-                        android.util.Log.w("DEBUG_PRODUCTS", "Prodotto ${dto.productId} senza nome, saltato")
-                        null
-                    } else {
-                        Product(
-                            productId = dto.productId,
-                            name = dto.name ?: "",
-                            unitType = try {
-                                ProductUnit.valueOf(dto.unitType)
-                            } catch(e: Exception) {
-                                ProductUnit.UNIT
-                            }, // AGGIUNGI QUESTA RIGA
-                            defaultPackageSize = dto.defaultPackageSize, // E QUESTA
-                            itName = dto.itName,
-                            categoryName = dto.productCategory?.category,
-                            imageUrl = null
-                        )
-                    }
-                }
 
-                android.util.Log.d("DEBUG_PRODUCTS", "Prodotti mappati: ${products.size}")
+                    android.util.Log.d("DEBUG_ID", "Prodotto da DB: ${dto.name} ha ID: '${dto.productId}'")
+                    // Saltiamo i prodotti che non hanno un nome
+                    if (dto.name.isNullOrBlank()) null
+                    else Product(
+                        productId = dto.productId ?: "", // Risolve Type mismatch garantendo String
+                        name = dto.name ?: "Prodotto senza nome", // Risolve Type mismatch
+                        unitType = try {
+                            ProductUnit.valueOf(dto.unitType ?: "UNIT")
+                        } catch(e: Exception) {
+                            ProductUnit.UNIT
+                        },
+                        defaultPackageSize = dto.defaultPackageSize,
+                        itName = dto.itName,
+                        categoryName = dto.productCategory?.category,
+                        imageUrl = dto.imageUrl
+                    )
+                }
                 Result.Success(products)
             } else {
-                android.util.Log.e("DEBUG_PRODUCTS", "Errore: ${response.code()}")
                 Result.Error(AppError.ServerError(response.code(), "Errore caricamento prodotti"))
             }
         } catch (e: Exception) {
-            android.util.Log.e("DEBUG_PRODUCTS", "Eccezione: ${e.message}", e)
             Result.Error(AppError.NetworkError(e.message ?: "Errore di rete"))
         }
     }
 
     override suspend fun getProductById(id: String): Result<ProductDetails> {
+        if (id.isBlank()) return Result.Error(AppError.UnknownError("ID Prodotto vuoto"))
+
         return try {
             val response = productApi.getProductById(id)
 
-            if (response.isSuccessful) {
-                val dto = response.body()
+            if (response.isSuccessful && response.body() != null) {
+                val dto = response.body()!!
 
-                if (dto != null && !dto.name.isNullOrBlank()) {
-                    val productDetails = ProductDetails(
-                        productId = dto.productId,
-                        name = dto.name,
-                        itName = dto.itName,
-                        categoryName = dto.productCategory?.category,
-                        standardPortion = dto.productCategory?.standardPortion,
-                        diets = dto.productDiets?.mapNotNull { it.diet?.description } ?: emptyList(),
-                        claims = dto.productClaims?.mapNotNull { it.claim?.description } ?: emptyList(),
-                        allergens = dto.productAllergens?.mapNotNull { it.allergen?.description } ?: emptyList(),
-                        nutritionalValues = dto.nutritionalInformationValues?.mapNotNull { nvDto ->
-                            val nutrient = nvDto.nutritionalInformation
-                            if (nutrient?.name != null && nvDto.value != null) {
-                                NutritionalValue(
-                                    name = nutrient.name,
-                                    value = nvDto.value,
-                                    unit = nutrient.unit
-                                )
-                            } else null
-                        } ?: emptyList()
-                    )
+                val productDetails = ProductDetails(
+                    productId = dto.productId,
+                    name = dto.name ?: "",
+                    itName = dto.itName,
+                    unitType = try {
+                        ProductUnit.valueOf(dto.unitType ?: "UNIT")
+                    } catch (e: Exception) {
+                        ProductUnit.UNIT
+                    },
+                    defaultPackageSize = dto.defaultPackageSize,
+                    imageUrl = dto.imageUrl,
+                    categoryName = dto.productCategory?.category,
+                    standardPortion = dto.productCategory?.standardPortion?.toFloatOrNull(),
 
-                    Result.Success(productDetails)
-                } else {
-                    Result.Error(AppError.UnknownError("Prodotto non trovato o senza nome"))
-                }
+                    // MAPPING LISTE (Punta agli oggetti annidati correttamente)
+                    diets = dto.productDiets?.mapNotNull { it.diet?.description } ?: emptyList(),
+                    claims = dto.productClaims?.mapNotNull { it.claim?.description } ?: emptyList(),
+                    allergens = dto.productAllergens?.mapNotNull { it.allergen?.description } ?: emptyList(),
+
+                    // MAPPING NUTRIZIONALE
+                    nutritionalValues = dto.nutritionalInformationValues?.mapNotNull { nvDto ->
+                        val nutrient = nvDto.nutritionalInformation
+                        if (nutrient?.name != null) {
+                            NutritionalValue(
+                                name = nutrient.name, // Prende nutrientIT dal DTO
+                                value = nvDto.value,
+                                unit = nutrient.unit ?: "" // Prende unitOfMeasure
+                            )
+                        } else null
+                    } ?: emptyList()
+                )
+                Result.Success(productDetails)
             } else {
-                Result.Error(AppError.ServerError(response.code(), "Errore caricamento dettaglio"))
+                Result.Error(AppError.ServerError(response.code(), "Prodotto non trovato"))
             }
         } catch (e: Exception) {
             android.util.Log.e("DEBUG_PRODUCT_DETAIL", "Errore: ${e.message}", e)

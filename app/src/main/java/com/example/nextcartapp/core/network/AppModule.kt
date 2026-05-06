@@ -16,6 +16,7 @@ import com.example.nextcartapp.data.repository.CartRepositoryImpl
 import com.example.nextcartapp.data.repository.FilterRepositoryImpl
 import com.example.nextcartapp.data.repository.HealthConditionRepositoryImpl
 import com.example.nextcartapp.data.repository.MealRepositoryImpl
+import com.example.nextcartapp.data.repository.PantryRepositoryImpl
 import com.example.nextcartapp.data.repository.PhysicalActivityRepositoryImpl
 import com.example.nextcartapp.data.repository.ProductRepositoryImpl
 import com.example.nextcartapp.data.repository.UserRepositoryImpl
@@ -25,6 +26,7 @@ import com.example.nextcartapp.domain.repository.CartRepository
 import com.example.nextcartapp.domain.repository.FilterRepository
 import com.example.nextcartapp.domain.repository.HealthConditionRepository
 import com.example.nextcartapp.domain.repository.MealRepository
+import com.example.nextcartapp.domain.repository.PantryRepository
 import com.example.nextcartapp.domain.repository.PhysicalActivityRepository
 import com.example.nextcartapp.domain.repository.ProductRepository
 import com.example.nextcartapp.domain.repository.UserRepository
@@ -148,7 +150,11 @@ object ApiModule {
         return retrofit.create(PantryApi::class.java)
     }
 
-
+    @Provides
+    @Singleton
+    fun providePantryRepository(api: PantryApi): PantryRepository {
+        return PantryRepositoryImpl(api)
+    }
 }
 
 @Module

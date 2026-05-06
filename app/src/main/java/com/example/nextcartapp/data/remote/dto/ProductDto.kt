@@ -3,17 +3,20 @@ package com.example.nextcartapp.data.remote.dto
 import com.google.gson.annotations.SerializedName
 
 data class ProductDto(
-    @SerializedName("productId")
+    @SerializedName("productId") // Cambiato da productId a product_id (come da query SQL)
     val productId: String,
 
     @SerializedName("name")
     val name: String?,
 
-    @SerializedName("itName")
+    @SerializedName("it_name") // Cambiato da itName a it_name
     val itName: String?,
 
-    @SerializedName("productCategory")
+    @SerializedName("product_category") // Cambiato per coerenza con il DB
     val productCategory: ProductCategoryDto?,
+
+    @SerializedName("image_url")
+    val imageUrl: String?,
 
     @SerializedName("productDiets")
     val productDiets: List<ProductDietDto>? = emptyList(),
@@ -27,16 +30,15 @@ data class ProductDto(
     @SerializedName("nutritionalInformationValues")
     val nutritionalInformationValues: List<NutritionalInfoDto>? = emptyList(),
 
-    @SerializedName("unitType")
-    val unitType: String, // UNIT, WEIGHT_G, VOLUME_ML
+    @SerializedName("unit_type") // Cambiato da unitType a unit_type
+    val unitType: String?, // Nullable per sicurezza
 
-    @SerializedName("defaultPackageSize")
+    @SerializedName("default_package_size") // Cambiato da defaultPackageSize a default_package_size
     val defaultPackageSize: Float?
 )
 
-// ProductCategory DTO
 data class ProductCategoryDto(
-    @SerializedName("productCategoryId")
+    @SerializedName("product_category_id") // Allineato al DB
     val productCategoryId: String,
 
     @SerializedName("group")
@@ -45,7 +47,7 @@ data class ProductCategoryDto(
     @SerializedName("category")
     val category: String,
 
-    @SerializedName("standardPortion")
+    @SerializedName("standard_portion") // Allineato al DB
     val standardPortion: String?
 )
 
@@ -55,7 +57,7 @@ data class ProductDietDto(
 )
 
 data class DietInfoDto(
-    @SerializedName("description")
+    @SerializedName("diet_id") // Dalla query SQL risulta 'diet_id'
     val description: String?
 )
 
@@ -75,22 +77,21 @@ data class ProductAllergenDto(
 )
 
 data class AllergenInfoDto(
-    @SerializedName("description")
+    @SerializedName("allergen_name") // Dalla query SQL risulta 'allergen_name'
     val description: String?
 )
 
 data class NutritionalInfoDto(
-    @SerializedName("nutritionalInformation")
+    @SerializedName("nutrient") // Deve essere "nutrient" come nel Service sopra
     val nutritionalInformation: NutrientInfoDto?,
-
     @SerializedName("value")
     val value: String?
 )
 
 data class NutrientInfoDto(
-    @SerializedName("name")
+    @SerializedName("nutrient_it") // Dalla query SQL risulta 'nutrient_it'
     val name: String?,
 
-    @SerializedName("unit")
+    @SerializedName("unitOfMeasure") // Dalla query SQL risulta 'unitOfMeasure'
     val unit: String?
 )

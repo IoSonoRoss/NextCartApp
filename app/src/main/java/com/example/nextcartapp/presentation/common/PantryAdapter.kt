@@ -11,7 +11,9 @@ import com.example.nextcartapp.R
 import com.example.nextcartapp.core.util.ProductUnit
 import com.example.nextcartapp.domain.model.PantryItem
 
-class PantryAdapter : ListAdapter<PantryItem, PantryAdapter.ViewHolder>(PantryDiffCallback()) {
+class PantryAdapter(
+    private val onItemClick: (PantryItem) -> Unit
+) : ListAdapter<PantryItem, PantryAdapter.ViewHolder>(PantryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -20,7 +22,9 @@ class PantryAdapter : ListAdapter<PantryItem, PantryAdapter.ViewHolder>(PantryDi
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val item = getItem(position)
+        holder.bind(item)
+        holder.itemView.setOnClickListener { onItemClick(item) } // Gestione click
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -60,7 +64,7 @@ class PantryAdapter : ListAdapter<PantryItem, PantryAdapter.ViewHolder>(PantryDi
      */
     class PantryDiffCallback : DiffUtil.ItemCallback<PantryItem>() {
         override fun areItemsTheSame(oldItem: PantryItem, newItem: PantryItem): Boolean {
-            return oldItem.pantryItemId == newItem.pantryItemId
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: PantryItem, newItem: PantryItem): Boolean {

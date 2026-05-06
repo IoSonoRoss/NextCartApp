@@ -122,7 +122,7 @@ class HomeFragment : Fragment() {
                     true
                 }
                 R.id.nav_scan -> {
-                    findNavController().navigate(R.id.scannerFragment)
+                    findNavController().navigate(R.id.pantryFragment)
                     true
                 }
                 else -> false

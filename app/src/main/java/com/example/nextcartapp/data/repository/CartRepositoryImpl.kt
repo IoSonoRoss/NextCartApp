@@ -49,12 +49,12 @@ class CartRepositoryImpl @Inject constructor(
         Result.Error(AppError.NetworkError(e.message ?: "Error"))
     }
 
-    override suspend fun addProductToCart(cartId: Int, productId: String): Result<Unit> = try {
-        val response = api.addItemToCart(cartId, AddCartItemDto(productId))
+    override suspend fun addProductToCart(cartId: Int, productId: String, quantity: Float): Result<Unit> = try {
+        val response = api.addItemToCart(cartId, AddCartItemDto(productId, quantity))
         if (response.isSuccessful) Result.Success(Unit)
-        else Result.Error(AppError.ServerError(response.code(), "Failed"))
+        else Result.Error(AppError.ServerError(response.code(), "Errore"))
     } catch (e: Exception) {
-        Result.Error(AppError.NetworkError(e.message ?: "Error"))
+        Result.Error(AppError.NetworkError(e.message ?: "Errore"))
     }
 
     override suspend fun deleteCart(cartId: Int): Result<Unit> = try {

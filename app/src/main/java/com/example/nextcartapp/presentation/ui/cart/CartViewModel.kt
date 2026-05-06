@@ -93,11 +93,11 @@ class CartViewModel @Inject constructor(
     /**
      * Aggiunge un prodotto a un carrello già esistente.
      */
-    fun addProductToSelectedCart(userId: Int, cartId: Int, productId: String) {
+    fun addProductToSelectedCart(userId: Int, cartId: Int, productId: String, quantity: Float) {
         Log.d("CART_DEBUG", "Tentativo aggiunta: Prodotto $productId in Carrello $cartId")
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            when (val result = addProductToCartUseCase(cartId, productId)) {
+            when (val result = addProductToCartUseCase(cartId, productId, quantity)) {
                 is Result.Success -> {
                     // FONDAMENTALE: Ricarichiamo i carrelli dal server per avere la lista aggiornata
                     loadUserCarts(userId)
@@ -116,13 +116,13 @@ class CartViewModel @Inject constructor(
      * @param cartName Nome assegnato al nuovo carrello.
      * @param productId ID del prodotto da aggiungere dopo la creazione.
      */
-    fun createCartAndAddProduct(userId: Int, cartName: String, productId: String) {
+    fun createCartAndAddProduct(userId: Int, cartName: String, productId: String, quantity: Float) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             when (val createResult = createCartUseCase(userId, cartName)) {
                 is Result.Success -> {
                     val newCartId = createResult.data.cartId
-                    when (val addResult = addProductToCartUseCase(newCartId, productId)) {
+                    when (val addResult = addProductToCartUseCase(newCartId, productId, quantity)) {
                         is Result.Success -> {
                             // REFRESH ANCHE QUI
                             loadUserCarts(userId)

@@ -72,8 +72,8 @@
             android:id="@+id/action_home_to_cart"
             app:destination="@id/cartFragment" />
         <action
-            android:id="@+id/action_home_to_scanner"
-            app:destination="@id/scannerFragment" />
+            android:id="@+id/action_home_to_pantry"
+            app:destination="@id/pantryFragment" />
         <action
             android:id="@+id/action_home_to_lifestyle"
             app:destination="@id/lifestyleFragment" />
@@ -162,6 +162,12 @@
         android:name="com.example.nextcartapp.presentation.ui.scanner.ScannerFragment"
         android:label="Scanner"
         tools:layout="@layout/fragment_scanner" />
+
+    <fragment
+        android:id="@+id/pantryFragment"
+        android:name="com.example.nextcartapp.presentation.ui.pantry.PantryFragment"
+        android:label="Pantry"
+        tools:layout="@layout/fragment_pantry" />
 
     <fragment
         android:id="@+id/profileFragment"

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_bottom_sheet">
+
+    <View
+        android:layout_width="32dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="#DADADA" />
+
+    <TextView
+        android:id="@+id/tvConsumeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quanto ne hai usato?"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvCurrentStock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Disponibili: 500 g"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="#757575"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Selettore dinamico (Counter o Input) -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/llUnitSelector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone">
+            <Button android:id="@+id/btnMinus" android:text="-" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/tvCount" android:text="1" android:padding="20dp" android:textSize="24sp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <Button android:id="@+id/btnAdd" android:text="+" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilNumeric"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </FrameLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfirmConsume"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:text="Conferma Consumo"
+        app:cornerRadius="16dp" />
+
+</LinearLayout>

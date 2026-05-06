@@ -21,21 +21,21 @@ class PantryRepositoryImpl @Inject constructor(
             if (body != null) {
                 val pantryItems = body.map { dto ->
                     PantryItem(
-                        pantryItemId = dto.pantryItemId, // Assicurati che nel modello si chiami 'id'
+                        id = dto.pantryItemId,
                         quantity = dto.quantity,
                         lastUpdated = dto.lastUpdated,
                         product = Product(
-                            productId = dto.product.productId,
-                            name = dto.product.name ?: "Sconosciuto",
+                            productId = dto.product.productId ?: "", // Risolve Type mismatch
+                            name = dto.product.name ?: "Prodotto sconosciuto", // Risolve Type mismatch
                             unitType = try {
-                                ProductUnit.valueOf(dto.product.unitType)
+                                ProductUnit.valueOf(dto.product.unitType ?: "UNIT")
                             } catch (e: Exception) {
                                 ProductUnit.UNIT
                             },
                             defaultPackageSize = dto.product.defaultPackageSize,
                             itName = dto.product.itName,
                             categoryName = dto.product.productCategory?.category,
-                            imageUrl = null
+                            imageUrl = dto.product.imageUrl // Mappato correttamente dal DTO del prodotto
                         )
                     )
                 }
@@ -44,7 +44,18 @@ class PantryRepositoryImpl @Inject constructor(
                 Result.Success(emptyList())
             }
         } else {
-            Result.Error(AppError.ServerError(response.code(), "Errore API"))
+            Result.Error(AppError.ServerError(response.code(), "Errore API Dispensa"))
+        }
+    } catch (e: Exception) {
+        Result.Error(AppError.NetworkError(e.message ?: "Errore di connessione"))
+    }
+
+    override suspend fun consumeItem(pantryItemId: Int, amount: Float): Result<Unit> = try {
+        val response = api.consumeItem(pantryItemId, mapOf("amount" to amount))
+        if (response.isSuccessful) {
+            Result.Success(Unit)
+        } else {
+            Result.Error(AppError.ServerError(response.code(), "Errore durante il consumo"))
         }
     } catch (e: Exception) {
         Result.Error(AppError.NetworkError(e.message ?: "Errore di rete"))

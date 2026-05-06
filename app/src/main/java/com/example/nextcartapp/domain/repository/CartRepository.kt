@@ -6,7 +6,7 @@ import com.example.nextcartapp.domain.model.Cart
 interface CartRepository {
     suspend fun getUserCarts(userId: Int): Result<List<Cart>>
     suspend fun createCart(userId: Int, name: String): Result<Cart>
-    suspend fun addProductToCart(cartId: Int, productId: String): Result<Unit>
+    suspend fun addProductToCart(cartId: Int, productId: String, quantity: Float): Result<Unit>
     suspend fun deleteCart(cartId: Int): Result<Unit>
 
     suspend fun checkout(cartId: Int): Result<Unit>

@@ -5,4 +5,6 @@ import com.example.nextcartapp.domain.model.PantryItem
 
 interface PantryRepository {
     suspend fun getUserPantry(userId: Int): Result<List<PantryItem>>
+
+    suspend fun consumeItem(pantryItemId: Int, amount: Float): Result<Unit>
 }
